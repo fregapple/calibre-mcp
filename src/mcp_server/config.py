@@ -39,10 +39,11 @@ def resolve_user_config():
     for username, entry in USER_REGISTRY.items():
         api_key = os.getenv(entry["api_key_env"])
         kindle_email = os.getenv(entry.get("kindle_email_env", ""))
+        library_path = os.getenv(entry("library_path_env", ""))
 
         resolved[username] = {
             "api_key": api_key,
-            "library_path": entry["library_path"],
+            "library_path": library_path,
             "kindle_email": kindle_email,
         }
 
