@@ -17,7 +17,8 @@ mcp = FastMCP(
     "calibre-mcp",
     stateless_http=True,
     json_response=True,
-    host="0.0.0.0"
+    host="0.0.0.0",
+    port=8002
 )
 
 # -----------------------------
