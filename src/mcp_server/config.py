@@ -40,3 +40,5 @@ def resolve_user_config():
         }
 
     return resolved
+
+USERS = resolve_user_config()
