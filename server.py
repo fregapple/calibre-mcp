@@ -1,6 +1,5 @@
 from mcp.server.fastmcp import FastMCP
 
-from src.mcp_server.config import validate_config
 from src.mcp_server.library_router import get_library_from_key, UnknownAPIKeyError
 from src.mcp_server.calibre_tools import (
     import_book_to_library,
