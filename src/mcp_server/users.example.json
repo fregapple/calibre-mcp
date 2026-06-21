@@ -1,12 +1,12 @@
 {
   "USER1": {
     "api_key_env": "USER1_API_KEY",
-    "library_path": "USER1_LIBRARY_PATH",
+    "library_path_env": "USER1_LIBRARY_PATH",
     "kindle_email_env": "USER1_KINDLE_EMAIL"
   },
   "USER2": {
     "api_key_env": "USER2_API_KEY",
-    "library_path": "USER2_LIBRARY_PATH",
+    "library_path_env": "USER2_LIBRARY_PATH",
     "kindle_email_env": "USER2_KINDLE_EMAIL"
   }
 }
