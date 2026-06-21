@@ -20,10 +20,6 @@ mcp = FastMCP(
     host="0.0.0.0"
 )
 
-# Validate environment on startup
-validate_config()
-
-
 # -----------------------------
 # TOOLS
 # -----------------------------
