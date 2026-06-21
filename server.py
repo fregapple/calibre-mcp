@@ -8,6 +8,7 @@ from src.mcp_server.calibre_tools import (
     set_metadata,
     convert_book,
 )
+from src.mcp_server.delivery_tools import send_to_device
 
 
 # -----------------------------
@@ -78,6 +79,14 @@ def convert_format(api_key: str, input_path: str, output_path: str):
 
     result = convert_book(input_path, output_path)
     return {"status": "success", "result": result}
+
+
+@mcp.tool(description="Send a book to the user's e-reader.")
+def send_book(api_key: str, book_id: str):
+    try:
+        return send_to_device(api_key, book_id)
+    except UnknownAPIKeyError as e:
+        return {"status": "error", "message": str(e)}
 
 
 # -----------------------------

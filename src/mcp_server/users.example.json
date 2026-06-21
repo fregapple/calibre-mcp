@@ -1,12 +1,30 @@
 {
   "USER1": {
     "api_key_env": "USER1_API_KEY",
-    "library_path_env": "/USER1_LIBRARY_PATH",
-    "kindle_email_env": "USER1_KINDLE_EMAIL"
+
+    "library_path_env": "USER1_LIBRARY_PATH",
+
+    "ereader_type": "kindle_koreader",
+
+    "enable_send_to_kindle": false,
+    "enable_koreader_push": true,
+
+    "kindle_email_env": "USER1_KINDLE_EMAIL",
+    
+    "koreader_host": "192.168.1.50",
+    "koreader_port": 8080
   },
+
   "USER2": {
     "api_key_env": "USER2_API_KEY",
-    "library_path_env": "/USER2_LIBRARY_PATH",
+
+    "library_path_env": "USER2_LIBRARY_PATH",
+
+    "ereader_type": "kindle",
+
+    "enable_send_to_kindle": true,
+    "enable_koreader_push": false,
+
     "kindle_email_env": "USER2_KINDLE_EMAIL"
   }
 }

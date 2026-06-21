@@ -22,32 +22,21 @@ with open(USERS_FILE, "r") as f:
 
 
 def resolve_user_config():
-    """
-    Resolves environment variables for API keys and Kindle emails.
-    Returns a dict:
-    {
-        "sam": {
-            "api_key": "...",
-            "library_path": "...",
-            "kindle_email": "..."
-        },
-        ...
-    }
-    """
     resolved = {}
 
     for username, entry in USER_REGISTRY.items():
-        api_key = os.getenv(entry["api_key_env"])
-        kindle_email = os.getenv(entry.get("kindle_email_env", ""))
-        library_path = os.getenv(entry["library_path_env"])
-
         resolved[username] = {
-            "api_key": api_key,
-            "library_path": library_path,
-            "kindle_email": kindle_email,
+            "api_key": os.getenv(entry["api_key_env"]),
+            "library_path": os.getenv(entry["library_path_env"]),
+            "ereader_type": entry.get("ereader_type", "unknown"),
+
+            "enable_send_to_kindle": entry.get("enable_send_to_kindle", False),
+            "enable_koreader_push": entry.get("enable_koreader_push", False),
+
+            "kindle_email": os.getenv(entry.get("kindle_email_env", "")),
+
+            "koreader_host": entry.get("koreader_host"),
+            "koreader_port": entry.get("koreader_port")
         }
 
     return resolved
-
-
-USERS = resolve_user_config()
