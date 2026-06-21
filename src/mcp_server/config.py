@@ -1,58 +1,52 @@
 import os
+import json
 from dotenv import load_dotenv
-load_dotenv()
 
+load_dotenv()
 
 # ------------------------------------------------------------
 # Calibre container configuration
 # ------------------------------------------------------------
 
-# Name of the Docker container running Calibre
 CALIBRE_CONTAINER = os.getenv("CALIBRE_CONTAINER_NAME", "calibre")
-
-# Base directory where all Calibre libraries live
-# Example: /data/calibre
-LIBRARY_BASE_PATH = os.getenv("CALIBRE_LIBRARY_BASE_PATH", "/data/calibre")
-
+LIBRARY_BASE_PATH = os.getenv("CALIBRE_LIBRARY_BASE_PATH", "/")
 
 # ------------------------------------------------------------
-# API keys for user identity → library mapping
+# Load dynamic user registry
 # ------------------------------------------------------------
 
-SAM_API_KEY = os.getenv("SAM_API_KEY")
-JENNA_API_KEY = os.getenv("JENNA_API_KEY")
+USERS_FILE = os.path.join(os.path.dirname(__file__), "users.json")
 
-# Library paths derived from base path
-SAM_LIBRARY = os.path.join(LIBRARY_BASE_PATH, "sam")
-JENNA_LIBRARY = os.path.join(LIBRARY_BASE_PATH, "jenna")
+with open(USERS_FILE, "r") as f:
+    USER_REGISTRY = json.load(f)
 
 
-# ------------------------------------------------------------
-# Optional: Kindle email configuration (future use)
-# ------------------------------------------------------------
-
-SAM_KINDLE_EMAIL = os.getenv("SAM_KINDLE_EMAIL")
-JENNA_KINDLE_EMAIL = os.getenv("JENNA_KINDLE_EMAIL")
-
-
-# ------------------------------------------------------------
-# Validation (optional but recommended)
-# ------------------------------------------------------------
-
-def validate_config():
+def resolve_user_config():
     """
-    Ensures required environment variables are present.
-    Call this once at server startup.
+    Resolves environment variables for API keys and Kindle emails.
+    Returns a dict:
+    {
+        "sam": {
+            "api_key": "...",
+            "library_path": "...",
+            "kindle_email": "..."
+        },
+        ...
+    }
     """
-    missing = []
+    resolved = {}
 
-    if SAM_API_KEY is None:
-        missing.append("SAM_API_KEY")
+    for username, entry in USER_REGISTRY.items():
+        api_key = os.getenv(entry["api_key_env"])
+        kindle_email = os.getenv(entry.get("kindle_email_env", ""))
 
-    if JENNA_API_KEY is None:
-        missing.append("JENNA_API_KEY")
+        resolved[username] = {
+            "api_key": api_key,
+            "library_path": entry["library_path"],
+            "kindle_email": kindle_email,
+        }
 
-    if missing:
-        raise RuntimeError(
-            f"Missing required environment variables: {', '.join(missing)}"
-        )
+    return resolved
+
+
+USERS = resolve_user_config()
